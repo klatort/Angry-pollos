@@ -6,7 +6,8 @@ void Tile::Mover(Graphics ^g)
 {
 	x += dx;
 	y += dy;
-
+	if (y >= 600)
+		Gravedad(0);
 	Mostrar(g);
 }
 
