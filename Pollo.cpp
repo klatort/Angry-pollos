@@ -12,6 +12,7 @@ Pollo::Pollo()
 	amplitud = 600;
 	angulo = 180;
 	periodo = 1;
+	l1 = l2 = 20;
 }
 
 
@@ -19,7 +20,7 @@ Pollo::~Pollo()
 {
 }
 
-void Pollo::Mover()
+void Pollo::Mover(System::Drawing::Graphics ^ g)
 {
 	if (amplitud > 1)
 	{
@@ -36,10 +37,5 @@ void Pollo::Mover()
 	else
 		y = y0;
 
-	g->FillEllipse(gcnew System::Drawing::SolidBrush
-}
-
-void Pollo::Mostrar_pollo()
-{
-
+	g->FillEllipse(gcnew System::Drawing::SolidBrush(System::Drawing::Color::Green), x, y, 20, 20);
 }

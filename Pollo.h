@@ -8,7 +8,6 @@ class Pollo :
 public:
 	Pollo();
 	~Pollo();
-	void Mover();
-	void Mostrar_pollo(System::Drawing::Graphics ^ g, System::Drawing::Bitmap ^bmp);
+	void Mover(Graphics ^ g);
 };
 
