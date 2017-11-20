@@ -5,8 +5,10 @@
 Game_Manager::Game_Manager()
 {
 	N_Tiles = new int;
+	N_Pollos = new int;
+	*N_Pollos = 0;
 	*N_Tiles = 0;
-	bolita = new Pollo();
+	bolita = new Pollo*[*N_Pollos];
 	T = new Tile*[*N_Tiles];
 }
 
@@ -31,18 +33,31 @@ bool Game_Manager::Colision(Figura * a, Figura * b)
 	return rectangleA.IntersectsWith(rectangleB);
 }
 
+
 void Game_Manager::CheckImpact()
 {
 	for (int i = 0; i < *N_Tiles; i++)
 	{
 		Tile *a = T[i];
 
-		if (Colision(a, bolita))
+		for (int j = 0; j < *N_Pollos; j++)
 		{
-			a->Damage(bolita->dx);
-			a->Impulso(bolita->dx);
-				//bolita->dx -= 3;
+			Pollo *b = bolita[j];
+			if (Colision(a, b))
+			{
+				bolita[j]->dx *= -1;
+				a->Damage(bolita[j]->dx);
+
 			}
+		}
+	}
+}
+
+void Game_Manager::Pollo_desaparece(System::Drawing::Graphics ^ g)
+{
+	for (int i = 0; i < *N_Pollos; i++) {
+		if (bolita[i]->getx() > g->VisibleClipBounds.Right)
+			Eliminar_Pollo(i);
 	}
 }
 
@@ -60,6 +75,11 @@ void Game_Manager::CheckColision()
 				a->Gravedad(0);
 				b->Gravedad(0);
 			}
+			else
+			{
+				a->Gravedad(10);
+				b->Gravedad(10);
+			}
 		}
 	}
 }
@@ -75,8 +95,19 @@ void Game_Manager::Insertar_Tile(Tile * nuevo)
 	*N_Tiles += 1;
 	T = Aux;
 }
+void Game_Manager::Insertar_Pollo(Pollo * nuevo)
+{
+	Pollo ** Aux = new Pollo*[*N_Pollos + 1];
+	for (int i = 0; i < *N_Pollos; i++)
+	{
+		Aux[i] = bolita[i];
+	}
+	Aux[*N_Pollos] = nuevo;
+	*N_Pollos += 1;
+	bolita = Aux;
+}
 
-void Game_Manager::Eliminar(int pos)
+void Game_Manager::Eliminar_Tile(int pos)
 {
 	Tile ** Aux = new Tile*[*N_Tiles - 1];
 	for (int i = 0; i < pos; i++)
@@ -89,4 +120,24 @@ void Game_Manager::Eliminar(int pos)
 	}
 	*N_Tiles -= 1;
 	T = Aux;
+}
+void Game_Manager::Eliminar_Pollo(int pos)
+{
+	Pollo ** Aux = new Pollo*[*N_Pollos - 1];
+	for (int i = 0; i < pos; i++)
+	{
+		Aux[i] = bolita[i];
+	}
+	for (int i = pos + 1; i < *N_Pollos; i++)
+	{
+		Aux[i] = bolita[i];
+	}
+	*N_Pollos -= 1;
+	bolita = Aux;
+}
+
+void Game_Manager::Mover_pollos(System::Drawing::Graphics ^ g)
+{
+	for (int i = 0; i < *N_Pollos; i++)
+		bolita[i]->Mover(g);
 }
