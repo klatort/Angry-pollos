@@ -141,3 +141,10 @@ void Game_Manager::Mover_pollos(System::Drawing::Graphics ^ g)
 	for (int i = 0; i < *N_Pollos; i++)
 		bolita[i]->Mover(g);
 }
+
+void Game_Manager::Resortera(int px, int py)
+{
+	//px * cierta wea que normalice el numero
+	bolita->setAngulo(py);
+	//bolita->dx *px;
+}
