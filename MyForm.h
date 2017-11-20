@@ -20,6 +20,9 @@ namespace WindowsForms {
 			InitializeComponent();
 			Nivel1 = new Game_Manager();
 			Wood1 = new Tile(1000,500,20,80);
+			Wood2 = new Tile(950, 300, 80, 20);
+			verde = new Pollo();
+			gr = CreateGraphics();
 			//
 			//TODO: Add the constructor code here
 			//
@@ -34,6 +37,7 @@ namespace WindowsForms {
 			if (components)
 			{
 				delete Wood1;
+				delete Wood2;
 				delete Nivel1;
 				delete components;
 			}
@@ -44,7 +48,10 @@ namespace WindowsForms {
 		/// Required designer variable.
 		/// </summary>
 		Tile* Wood1;
+		Tile* Wood2;
+		Pollo* verde;
 		Game_Manager* Nivel1;
+		Graphics ^gr;
 	private: System::Windows::Forms::Timer^  DeltaTime;
 
 	private: System::ComponentModel::IContainer^  components;
@@ -75,6 +82,7 @@ namespace WindowsForms {
 			this->Text = L"MyForm";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			this->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseClick);
 			this->ResumeLayout(false);
 
 		}
@@ -83,16 +91,26 @@ namespace WindowsForms {
 		Graphics ^g = this->CreateGraphics();
 		BufferedGraphicsContext ^bgct = BufferedGraphicsManager::Current;
 		BufferedGraphics^bg = bgct->Allocate(g, this->ClientRectangle);
-		Nivel1->bolita->Mover(bg->Graphics);
+		Nivel1->Pollo_desaparece(bg->Graphics);
+		Nivel1->Mover_pollos(bg->Graphics);	
 		Wood1->Mover(bg->Graphics);
-	//	Nivel1->CheckImpact();
+		Wood2->Mover(bg->Graphics);
+		Nivel1->CheckImpact();
 		bg->Render(g);
 		delete bg;
 		delete bgct;
 		delete g;
 	}
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-//	Nivel1->Insertar_Tile(Wood1);
+	Nivel1->Insertar_Tile(Wood1);
+	Nivel1->Insertar_Tile(Wood2);
+	Nivel1->Insertar_Pollo(verde);
+	Wood1->Mostrar(gr);
+	Wood2->Mostrar(gr);
+	}
+	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		Pollo* repoio = new Pollo();
+		Nivel1->Insertar_Pollo(repoio);
 	}
 	};
 }
