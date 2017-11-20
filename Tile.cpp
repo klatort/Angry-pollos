@@ -43,7 +43,8 @@ Tile::Tile()
 
 Tile::Tile(int px, int py, int pl1, int pl2):Figura(px,py)
 {
-	dx = dy = 0;
+	dx = 0
+	dy = 10;
 	l1 = pl1;
 	l2 = pl2;
 }
