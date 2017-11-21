@@ -136,6 +136,7 @@
     <ClCompile Include="Game_Manager.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Pollo.cpp" />
+    <ClCompile Include="Resortera.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Pollo.h" />
+    <ClInclude Include="Resortera.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>

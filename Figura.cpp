@@ -38,9 +38,9 @@ int Figura::gety()
 	return y;
 }
 
-void Figura::Death()
+void Figura::setVivo(bool muerte)
 {
-	Vivo = false;
+	Vivo = muerte;
 }
 
 void Figura::Mover(Graphics ^ g)

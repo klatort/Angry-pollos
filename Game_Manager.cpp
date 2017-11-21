@@ -10,6 +10,7 @@ Game_Manager::Game_Manager()
 	*N_Tiles = 0;
 	bolita = new Pollo*[*N_Pollos];
 	T = new Tile*[*N_Tiles];
+	resortera = new Resortera;
 }
 
 Game_Manager::~Game_Manager()
@@ -56,7 +57,7 @@ void Game_Manager::CheckImpact()
 void Game_Manager::Pollo_desaparece(System::Drawing::Graphics ^ g)
 {
 	for (int i = 0; i < *N_Pollos; i++) {
-		if (bolita[i]->getx() > g->VisibleClipBounds.Right)
+		if (bolita[i]->getx() > g->VisibleClipBounds.Right|| bolita[i]->getx() < g->VisibleClipBounds.Left)
 			Eliminar_Pollo(i);
 	}
 }
@@ -106,29 +107,10 @@ void Game_Manager::Insertar_Pollo(Pollo * nuevo)
 	*N_Pollos += 1;
 	bolita = Aux;
 }
-
-void Game_Manager::Eliminar_Tile(int pos)
-{
-	Tile ** Aux = new Tile*[*N_Tiles - 1];
-	for (int i = 0; i < pos; i++)
-	{
-		Aux[i] = T[i];
-	}
-	for (int i = pos + 1; i < *N_Tiles; i++)
-	{
-		Aux[i] = T[i];
-	}
-	*N_Tiles -= 1;
-	T = Aux;
-}
-void Game_Manager::Eliminar_Pollo(int pos)
+void Game_Manager::Eliminar_test()
 {
 	Pollo ** Aux = new Pollo*[*N_Pollos - 1];
-	for (int i = 0; i < pos; i++)
-	{
-		Aux[i] = bolita[i];
-	}
-	for (int i = pos + 1; i < *N_Pollos; i++)
+	for (int i = 0; i < *N_Pollos - 1; i++)
 	{
 		Aux[i] = bolita[i];
 	}
@@ -136,15 +118,42 @@ void Game_Manager::Eliminar_Pollo(int pos)
 	bolita = Aux;
 }
 
-void Game_Manager::Mover_pollos(System::Drawing::Graphics ^ g)
+void Game_Manager::Eliminar_Tile(int pos)
 {
-	for (int i = 0; i < *N_Pollos; i++)
-		bolita[i]->Mover(g);
+	if (pos < *N_Tiles && pos >= 0) {
+		for (int i = pos; i < *N_Tiles - 1; i++)
+			T[i] = T[i + 1];
+		*N_Tiles = *N_Tiles - 1;
+	}
+}
+void Game_Manager::Eliminar_Pollo(int pos)
+{
+	if (pos < *N_Pollos && pos >= 0) {
+		for (int i = pos; i < *N_Pollos - 1; i++)
+			bolita[i] = bolita[i + 1];
+		*N_Pollos = *N_Pollos - 1;
+	}
 }
 
-void Game_Manager::Resortera(int px, int py)
+void Game_Manager::Mover_pollos(System::Drawing::Graphics ^ g, double angulo,double t,double distancia)
 {
-	//px * cierta wea que normalice el numero
-	bolita->setAngulo(py);
-	//bolita->dx *px;
+	
+		bolita[*N_Pollos -1 ]->Mover(g, angulo,t,distancia);
+}
+double Game_Manager::Calcular_angulo(double px, double py)
+{
+	return resortera->Calcular_Angulo(px, py);
+}
+double Game_Manager::Calcular_distancia(double px, double py)
+{
+	return resortera->Calcular_Distancia(px, py);
+}
+int Game_Manager::getN_Pollos()
+{
+	return *N_Pollos;
+}
+
+void Game_Manager::Mostrar_resortera(Graphics ^g)
+{
+	resortera->Mostrar_resortera(g);
 }

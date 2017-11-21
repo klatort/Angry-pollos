@@ -3,11 +3,11 @@
 class Pollo :
 	public Figura
 {
-	int y0;
-	float angulo, amplitud, periodo;
+	double dy;
 public:
 	Pollo();
 	~Pollo();
-	void Mover(Graphics ^ g);
+	void Mover(Graphics ^ g, double angulo,double t,double distancia);
+	virtual void Habilidad_Pollo();
 };
 

@@ -1,18 +1,14 @@
 #include "Pollo.h"
-
+#include <math.h>
 
 
 Pollo::Pollo()
 {
-	tag = 1;
-	dx = 25;
-	y = 0;
-	x = 0;
-	y0 = 500;
-	amplitud = 600;
-	angulo = 180;
-	periodo = 1;
-	l1 = l2 = 20;
+	dx = 0;
+	dy = 0;
+	y = 500;
+	x = 100;
+
 }
 
 
@@ -20,22 +16,20 @@ Pollo::~Pollo()
 {
 }
 
-void Pollo::Mover(System::Drawing::Graphics ^ g)
+void Pollo::Mover(System::Drawing::Graphics ^ g, double angulo, double t,double distancia)
 {
-	if (amplitud > 1)
-	{
-		x += dx;
-		double anguloenradianes = System::Math::PI *angulo / 180;
-		y = y0 - amplitud * (System::Math::Sin(anguloenradianes * periodo));
-		angulo += 5;
-		if (angulo > 180 / periodo)
-		{
-			angulo = 0;
-			amplitud = amplitud*0.20;
-		}
+
+	if (y < 600) {
+		y += (distancia/10)*(6*sin(angulo) + 0.5 * 9.81 * (t*t));
+		x += (distancia/10)*(6*cos(angulo));
 	}
 	else
-		y = y0;
-
+		y = 600;
+	
 	g->FillEllipse(gcnew System::Drawing::SolidBrush(System::Drawing::Color::Green), x, y, 20, 20);
+}
+
+void Pollo::Habilidad_Pollo()
+{
+
 }

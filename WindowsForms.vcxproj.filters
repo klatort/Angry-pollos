@@ -30,6 +30,9 @@
     <ClCompile Include="Pollo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Resortera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pollo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resortera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
