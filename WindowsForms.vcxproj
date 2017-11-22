@@ -132,6 +132,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cerdo.cpp" />
     <ClCompile Include="Figura.cpp" />
     <ClCompile Include="Game_Manager.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cerdo.h" />
     <ClInclude Include="Figura.h" />
     <ClInclude Include="Game_Manager.h" />
     <ClInclude Include="MyForm.h">

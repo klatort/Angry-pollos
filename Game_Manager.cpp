@@ -6,8 +6,11 @@ Game_Manager::Game_Manager()
 {
 	N_Tiles = new int;
 	N_Pollos = new int;
+	N_Cerdos = new int;
+	*N_Cerdos = 0;
 	*N_Pollos = 0;
 	*N_Tiles = 0;
+	C = new Cerdo*[*N_Cerdos];
 	bolita = new Pollo*[*N_Pollos];
 	T = new Tile*[*N_Tiles];
 	resortera = new Resortera;
@@ -46,9 +49,28 @@ void Game_Manager::CheckImpact()
 			Pollo *b = bolita[j];
 			if (Colision(a, b))
 			{
-				bolita[j]->dx *= -1;
+				bolita[j]->Setbounce(-1/2);
 				a->Damage(bolita[j]->dx);
+				a->Impulso(bolita[j]->dx);
+			}
+		}
+	}
+}
 
+void Game_Manager::KillEnemy()
+{
+	for (int i = 0; i < *N_Cerdos; i++)
+	{
+		Cerdo *a = C[i];
+
+		for (int j = 0; j < *N_Pollos; j++)
+		{
+			Pollo *b = bolita[j];
+			if (Colision(a, b))
+			{
+				bolita[j]->Setbounce(-1 / 2);
+				a->Damage(bolita[j]->dx);
+				a->Impulso(bolita[j]->dx);
 			}
 		}
 	}
@@ -83,6 +105,41 @@ void Game_Manager::CheckColision()
 			}
 		}
 	}
+}
+
+void Game_Manager::CheckColisionC()
+{
+	for (int i = 0; i < *N_Tiles; i++)
+	{
+		Tile *a = T[i];
+		for (int j = 0; j < *N_Cerdos; j++)
+		{
+			Cerdo *b = C[j];
+
+			if (Colision(a, b))
+			{
+				a->Gravedad(0);
+				b->Gravedad(0);
+			}
+			else
+			{
+				a->Gravedad(10);
+				b->Gravedad(10);
+			}
+		}
+	}
+}
+
+void Game_Manager::Insertar_Cerdos(Cerdo * nuevo)
+{
+	Cerdo ** Aux = new Cerdo*[*N_Cerdos + 1];
+	for (int i = 0; i < *N_Cerdos; i++)
+	{
+		Aux[i] = C[i];
+	}
+	Aux[*N_Cerdos] = nuevo;
+	*N_Cerdos += 1;
+	C = Aux;
 }
 
 void Game_Manager::Insertar_Tile(Tile * nuevo)
@@ -126,6 +183,16 @@ void Game_Manager::Eliminar_Tile(int pos)
 		*N_Tiles = *N_Tiles - 1;
 	}
 }
+
+void Game_Manager::Eliminar_Cerdo(int pos)
+{
+	if (pos < *N_Cerdos && pos >= 0) {
+		for (int i = pos; i < *N_Cerdos- 1; i++)
+			C[i] = C[i + 1];
+		*N_Cerdos = *N_Cerdos- 1;
+	}
+}
+
 void Game_Manager::Eliminar_Pollo(int pos)
 {
 	if (pos < *N_Pollos && pos >= 0) {
@@ -138,7 +205,7 @@ void Game_Manager::Eliminar_Pollo(int pos)
 void Game_Manager::Mover_pollos(System::Drawing::Graphics ^ g, double angulo,double t,double distancia)
 {
 	
-		bolita[*N_Pollos -1 ]->Mover(g, angulo,t,distancia);
+		bolita[*N_Pollos -1]->Mover(g, angulo,t,distancia);
 }
 double Game_Manager::Calcular_angulo(double px, double py)
 {

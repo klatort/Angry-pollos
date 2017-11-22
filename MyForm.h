@@ -18,6 +18,7 @@ namespace WindowsForms {
 		MyForm(void)
 		{
 			InitializeComponent();
+			Chanchito = new Cerdo(950, 200, 30, 30);
 			Nivel1 = new Game_Manager();
 			Wood1 = new Tile(1000,500,20,80);
 			Wood2 = new Tile(950, 300, 80, 20);
@@ -35,6 +36,7 @@ namespace WindowsForms {
 		{
 			if (components)
 			{
+				delete Chanchito;
 				delete Wood1;
 				delete Wood2;
 				delete Nivel1;
@@ -48,6 +50,7 @@ namespace WindowsForms {
 		/// </summary>
 		Tile* Wood1;
 		Tile* Wood2;
+		Cerdo* Chanchito;
 		int mousex = 0;
 		int mousey = 0;
 		double tiempo = 0;
@@ -103,19 +106,23 @@ namespace WindowsForms {
 		Graphics ^g = this->CreateGraphics();
 		BufferedGraphicsContext ^bgct = BufferedGraphicsManager::Current;
 		BufferedGraphics^bg = bgct->Allocate(g, this->ClientRectangle);
-		
+
 		if (Nivel1->getN_Pollos() > 0) {
-			tiempo+= 0.1;
-			Nivel1->Mover_pollos(bg->Graphics, Nivel1->Calcular_angulo(mousex, mousey), tiempo,Nivel1->Calcular_distancia(mousex,mousey));
+			tiempo += 0.1;
+			Nivel1->Mover_pollos(bg->Graphics, Nivel1->Calcular_angulo(mousex, mousey), tiempo, Nivel1->Calcular_distancia(mousex, mousey));
 		}
 		else
 			tiempo = 0;
 		g->FillEllipse(gcnew System::Drawing::SolidBrush(System::Drawing::Color::Green), 100, 500, 20, 20);
 		Wood1->Mover(bg->Graphics);
 		Wood2->Mover(bg->Graphics);
-		Nivel1->CheckImpact();
+		Chanchito->Mover(bg->Graphics);
 		Wood1->Mostrar(bg->Graphics);
 		Wood2->Mostrar(bg->Graphics);
+		Chanchito->Mostrar(bg->Graphics);
+		Nivel1->CheckImpact();
+		Nivel1->KillEnemy();
+		Nivel1->CheckColision();
 		Nivel1->Pollo_desaparece(bg->Graphics);
 		Nivel1->Mostrar_resortera(bg->Graphics);
 		bg->Render(g);
@@ -126,6 +133,7 @@ namespace WindowsForms {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 	Nivel1->Insertar_Tile(Wood1);
 	Nivel1->Insertar_Tile(Wood2);
+	Nivel1->Insertar_Cerdos(Chanchito);
 
 	}
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
