@@ -4,7 +4,7 @@ using namespace System::Drawing;
 class Figura
 {
 protected:
-	int x, y, tag/*kejesto?*/, l1, l2;
+	int x, y, tag/*kejesto?*/, l1, l2, fila, columna,d;
 	bool Vivo;
 public:
 	int dx;

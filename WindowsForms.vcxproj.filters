@@ -36,6 +36,15 @@
     <ClCompile Include="Cerdo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pollo_azul.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pollo_rojo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pollo_amarillo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -57,6 +66,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cerdo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pollo_azul.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pollo_rojo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pollo_amarillo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

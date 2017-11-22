@@ -137,6 +137,9 @@
     <ClCompile Include="Game_Manager.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Pollo.cpp" />
+    <ClCompile Include="Pollo_amarillo.cpp" />
+    <ClCompile Include="Pollo_azul.cpp" />
+    <ClCompile Include="Pollo_rojo.cpp" />
     <ClCompile Include="Resortera.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
@@ -148,6 +151,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Pollo.h" />
+    <ClInclude Include="Pollo_amarillo.h" />
+    <ClInclude Include="Pollo_azul.h" />
+    <ClInclude Include="Pollo_rojo.h" />
     <ClInclude Include="Resortera.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>

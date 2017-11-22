@@ -2,12 +2,12 @@
 
 
 
-Pollo::Pollo()
+Pollo_rojo::Pollo_rojo(int px, int py) :Pollo(px, py)
 {
 
 }
 
-Pollo::~Pollo()
+Pollo_rojo::~Pollo_rojo()
 {
 
 }

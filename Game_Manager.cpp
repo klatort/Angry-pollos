@@ -37,6 +37,18 @@ bool Game_Manager::Colision(Figura * a, Figura * b)
 	return rectangleA.IntersectsWith(rectangleB);
 }
 
+void Game_Manager::Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp1, System::Drawing::Bitmap ^bmp2, System::Drawing::Bitmap ^bmp3)
+{
+	for (int i = 0; i < *N_Pollos; i++)
+	{
+		if (dynamic_cast<Pollo_rojo*>(bolita[i]))
+		bolita[i]->Mostrar_pollo(g, bmp1);
+		if (dynamic_cast<Pollo_amarillo*>(bolita[i]))
+			bolita[i]->Mostrar_pollo(g, bmp2);
+		if (dynamic_cast<Pollo_azul*>(bolita[i]))
+			bolita[i]->Mostrar_pollo(g, bmp2);
+	}
+}
 
 void Game_Manager::CheckImpact()
 {
@@ -79,7 +91,7 @@ void Game_Manager::KillEnemy()
 void Game_Manager::Pollo_desaparece(System::Drawing::Graphics ^ g)
 {
 	for (int i = 0; i < *N_Pollos; i++) {
-		if (bolita[i]->getx() > g->VisibleClipBounds.Right|| bolita[i]->getx() < g->VisibleClipBounds.Left)
+		if (bolita[i]->getx() > g->VisibleClipBounds.Right|| bolita[i]->getx() + bolita[i]->getL1() < g->VisibleClipBounds.Left)
 			Eliminar_Pollo(i);
 	}
 }
@@ -199,10 +211,10 @@ void Game_Manager::Eliminar_Pollo(int pos)
 	}
 }
 
-void Game_Manager::Mover_pollos(System::Drawing::Graphics ^ g, double angulo,double t,double distancia)
+void Game_Manager::Mover_pollos( double angulo,double t,double distancia)
 {
 	
-		bolita[*N_Pollos -1]->Mover(g, angulo,t,distancia);
+		bolita[*N_Pollos -1]->Mover(angulo,t,distancia);
 }
 double Game_Manager::Calcular_angulo(double px, double py)
 {
@@ -216,8 +228,19 @@ int Game_Manager::getN_Pollos()
 {
 	return *N_Pollos;
 }
-
+int Game_Manager::getPolloy()
+{
+	return bolita[*N_Pollos - 1]->gety();
+}
 void Game_Manager::Mostrar_resortera(Graphics ^g)
 {
 	resortera->Mostrar_resortera(g);
+}
+void Game_Manager::Mostrar_resortera_liga(Graphics ^g, int px, int py)
+{
+	resortera->Mostrar_liga(g, px, py);
+}
+void Game_Manager::Pollo_en_resortera(int px, int py)
+{
+	bolita[*N_Pollos - 1]->Mostrar_pollo_resortera(px, py);
 }

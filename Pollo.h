@@ -6,10 +6,12 @@ class Pollo :
 	double dy;
 	float bounce;
 public:
-	Pollo();
+	Pollo(int px, int py);
 	~Pollo();
-	void Mover(Graphics ^ g, double angulo,double t,double distancia);
+	void Mover(double angulo,double t,double distancia);
 	virtual void Habilidad_Pollo();
+	virtual void Mostrar_pollo(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
+	void Mostrar_pollo_resortera(int px, int py);
 	void Setbounce(float b);
 };
 

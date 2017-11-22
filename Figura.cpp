@@ -12,6 +12,7 @@ Figura::Figura(int px, int py)
 	x = px;
 	y = py;
 	Vivo = true;
+	fila = columna = 0;
 }
 
 int Figura::getL1()

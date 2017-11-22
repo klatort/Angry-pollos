@@ -18,10 +18,13 @@ namespace WindowsForms {
 		MyForm(void)
 		{
 			InitializeComponent();
-			Chanchito = new Cerdo(950, 200, 30, 30);
+			Chanchito = new Cerdo(850, 200, 30, 30);
 			Nivel1 = new Game_Manager();
-			Wood1 = new Tile(1000,500,20,80);
-			Wood2 = new Tile(950, 300, 80, 20);
+			Wood1 = new Tile(900,500,20,80);
+			Wood2 = new Tile(850, 300, 80, 50);
+			imgpollo_rojo = gcnew Bitmap("Pollo_rojo.png");
+			imgpollo_azul = gcnew Bitmap("Pollo_azul.png");
+			imgpollo_amarillo = gcnew Bitmap("Pollo_amarillo.png");
 			gr = CreateGraphics();
 			//
 			//TODO: Add the constructor code here
@@ -36,6 +39,9 @@ namespace WindowsForms {
 		{
 			if (components)
 			{
+				delete imgpollo_amarillo;
+				delete imgpollo_azul;
+				delete imgpollo_rojo;
 				delete Chanchito;
 				delete Wood1;
 				delete Wood2;
@@ -51,10 +57,14 @@ namespace WindowsForms {
 		Tile* Wood1;
 		Tile* Wood2;
 		Cerdo* Chanchito;
+		Bitmap ^imgpollo_rojo;
+		Bitmap ^imgpollo_amarillo;
+		Bitmap ^imgpollo_azul;
 		int mousex = 0;
 		int mousey = 0;
 		double tiempo = 0;
-		bool pollo_moviendo = true;
+		bool pollo_moviendo = false;
+		bool apuntando = false;
 		Game_Manager* Nivel1;
 		Graphics ^gr;
 	private: System::Windows::Forms::Timer^  DeltaTime;
@@ -96,7 +106,8 @@ namespace WindowsForms {
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
-			this->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseClick);
+			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseDown);
+			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
 			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseUp);
 			this->ResumeLayout(false);
 
@@ -107,12 +118,25 @@ namespace WindowsForms {
 		BufferedGraphicsContext ^bgct = BufferedGraphicsManager::Current;
 		BufferedGraphics^bg = bgct->Allocate(g, this->ClientRectangle);
 
-		if (Nivel1->getN_Pollos() > 0) {
+		if (Nivel1->getN_Pollos() > 0 && apuntando == false) {
 			tiempo += 0.1;
-			Nivel1->Mover_pollos(bg->Graphics, Nivel1->Calcular_angulo(mousex, mousey), tiempo, Nivel1->Calcular_distancia(mousex, mousey));
+			Nivel1->Mover_pollos(Nivel1->Calcular_angulo(mousex, mousey), tiempo, Nivel1->Calcular_distancia(mousex, mousey));
+			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo,imgpollo_azul, imgpollo_amarillo);
 		}
 		else
 			tiempo = 0;
+		if (Nivel1->getN_Pollos() > 0) {
+			if (Nivel1->getPolloy() == 600 - 48)
+			{
+				pollo_moviendo = false;
+			}
+		}
+		if (apuntando)
+		{
+			Nivel1->Pollo_en_resortera(mousex, mousey);
+			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo, imgpollo_azul, imgpollo_amarillo);
+			Nivel1->Mostrar_resortera_liga(bg->Graphics, mousex, mousey);
+		}
 		g->FillEllipse(gcnew System::Drawing::SolidBrush(System::Drawing::Color::Green), 100, 500, 20, 20);
 		Wood1->Mover(bg->Graphics);
 		Wood2->Mover(bg->Graphics);
@@ -137,10 +161,6 @@ namespace WindowsForms {
 	Nivel1->Insertar_Cerdos(Chanchito);
 
 	}
-	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-		Pollo* repoio = new Pollo();
-		Nivel1->Insertar_Pollo(repoio);
-	}
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 	/*if (pollo_moviendo)
 		tiempo++;
@@ -148,8 +168,17 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 		tiempo = 0;*/
 }
 private: System::Void MyForm_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-	mousey = e->Y;
-	mousex = e->X;
+	if (apuntando) {
+		mousey = e->Y;
+		mousex = e->X;
+		if (mousex > 220)
+			mousex = 200;
+		if (mousey > 600 - 24)
+			mousey = 600 - 25;
+		if (mousey < 400)
+			mousey = 400;
+		apuntando = false;
+	}
 }
 
 private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
@@ -159,6 +188,35 @@ private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::F
 		Nivel1->Eliminar_test(); break;
 	default:
 		break;
+	}
+}
+private: System::Void MyForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+	if (pollo_moviendo == false) {
+		apuntando = true;
+		pollo_moviendo = true;
+		mousey = e->Y;
+		mousex = e->X;
+		if (mousex > 220)
+			mousex = 200;
+		if (mousey > 600 - 24)
+			mousey = 600 - 25;
+		if (mousey < 400)
+			mousey = 400;
+		Pollo_azul*repoio = new Pollo_azul(mousex, mousey);
+		Nivel1->Insertar_Pollo(repoio);
+	}
+
+}
+private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+	if (apuntando) {
+		mousey = e->Y;
+		mousex = e->X;
+		if (mousex > 220)
+			mousex = 200;
+		if (mousey > 600 - 24)
+			mousey = 600 - 25;
+		if (mousey < 400)
+			mousey = 400;
 	}
 }
 };
