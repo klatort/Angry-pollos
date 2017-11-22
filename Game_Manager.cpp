@@ -122,10 +122,7 @@ void Game_Manager::CheckColisionC()
 				b->Gravedad(0);
 			}
 			else
-			{
-				a->Gravedad(10);
 				b->Gravedad(10);
-			}
 		}
 	}
 }

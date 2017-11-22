@@ -123,6 +123,7 @@ namespace WindowsForms {
 		Nivel1->CheckImpact();
 		Nivel1->KillEnemy();
 		Nivel1->CheckColision();
+		Nivel1->CheckColisionC();
 		Nivel1->Pollo_desaparece(bg->Graphics);
 		Nivel1->Mostrar_resortera(bg->Graphics);
 		bg->Render(g);

@@ -33,7 +33,7 @@ void Cerdo::Gravedad(int pdy)
 	dy = pdy;
 }
 
-Cerdo::Cerdo(int px, int py, int pl1, int pl2)
+Cerdo::Cerdo(int px, int py, int pl1, int pl2):Figura(px,py)
 {
 	dx = 0;
 	dy = 10;

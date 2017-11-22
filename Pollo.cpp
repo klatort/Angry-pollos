@@ -22,11 +22,11 @@ void Pollo::Mover(System::Drawing::Graphics ^ g, double angulo, double t,double 
 {
 
 	if (y < 600) {
-		y += (distancia/10)*(6*sin(angulo) + 0.5 * 9.81 * (t*t));
-		dx = (distancia / 10)*(6 * cos(angulo));
+		y += (distancia/10)*(10*sin(angulo)*t + 0.5 * 9.81 * (t*t));
+		dx = (distancia / 10)*(10 * cos(angulo)*t);
 		x += dx*bounce;
 	}
-	else {
+	if((y + (distancia / 10)*(10 * sin(angulo) + 0.5 * 9.81 * (t*t))) >600) {
 		y = 600;
 		dx = 0;
 	}
