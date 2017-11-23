@@ -46,7 +46,7 @@ void Game_Manager::Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing:
 		if (dynamic_cast<Pollo_amarillo*>(bolita[i]))
 			bolita[i]->Mostrar_pollo(g, bmp2);
 		if (dynamic_cast<Pollo_azul*>(bolita[i]))
-			bolita[i]->Mostrar_pollo(g, bmp2);
+			bolita[i]->Mostrar_pollo(g, bmp3);
 	}
 }
 
@@ -211,10 +211,10 @@ void Game_Manager::Eliminar_Pollo(int pos)
 	}
 }
 
-void Game_Manager::Mover_pollos( double angulo,double t,double distancia)
+void Game_Manager::Mover_pollos(double t,double distancia)
 {
 	
-		bolita[*N_Pollos -1]->Mover(angulo,t,distancia);
+		bolita[*N_Pollos -1]->Mover(t,distancia);
 }
 double Game_Manager::Calcular_angulo(double px, double py)
 {
@@ -230,7 +230,8 @@ int Game_Manager::getN_Pollos()
 }
 int Game_Manager::getPolloy()
 {
-	return bolita[*N_Pollos - 1]->gety();
+	for (int i = 0; i < *N_Pollos;i++)
+		return bolita[*N_Pollos - 1]->gety();
 }
 void Game_Manager::Mostrar_resortera(Graphics ^g)
 {
@@ -243,4 +244,58 @@ void Game_Manager::Mostrar_resortera_liga(Graphics ^g, int px, int py)
 void Game_Manager::Pollo_en_resortera(int px, int py)
 {
 	bolita[*N_Pollos - 1]->Mostrar_pollo_resortera(px, py);
+}
+void Game_Manager::Nuevo_angulo(double t, double distancia)
+{
+	bolita[*N_Pollos - 1]->Nuevo_angulo(t, distancia);
+}
+void Game_Manager::Habilidad_pollo()
+{
+	if (dynamic_cast<Pollo_rojo*>(bolita[*N_Pollos - 1]))
+		bolita[*N_Pollos]->Habilidad_Pollo(0);
+	if (dynamic_cast<Pollo_amarillo*>(bolita[*N_Pollos - 1])) {
+
+		bolita[*N_Pollos - 1]->Habilidad_Pollo(0);
+
+	}
+	if (dynamic_cast<Pollo_azul*>(bolita[*N_Pollos - 1]))
+	{
+		bolita[*N_Pollos - 1]->habilidad = false;
+		Pollo_azul* polloaux1 = new Pollo_azul(bolita[*N_Pollos - 1]->getx(), bolita[*N_Pollos - 1]->gety(),bolita[*N_Pollos-1]->getd(), bolita[*N_Pollos - 1]->angulo);
+		Pollo_azul* polloaux2 = new Pollo_azul(bolita[*N_Pollos - 1]->getx(), bolita[*N_Pollos - 1]->gety(),bolita[*N_Pollos - 1]->getd(), bolita[*N_Pollos - 1]->angulo);
+		Insertar_Pollo(polloaux1);
+		Insertar_Pollo(polloaux2);
+
+	}
+		
+}
+void Game_Manager::Habilidad_pollo2()
+{
+	if (dynamic_cast<Pollo_rojo*>(bolita[*N_Pollos - 1]))
+		bolita[*N_Pollos - 1]->habilidad = true;
+	if (dynamic_cast<Pollo_amarillo*>(bolita[*N_Pollos - 1])) {
+
+		bolita[*N_Pollos - 1]->Habilidad_Pollo(0);
+
+	}
+	if (dynamic_cast<Pollo_azul*>(bolita[*N_Pollos - 1]))
+	{
+		int cont = 0;
+		for (int i = *N_Pollos - 1; i >= 0; i--)
+		{
+			
+			bolita[i]->Habilidad_Pollo(cont);
+			cont++;
+		}
+
+	}
+
+}
+void Game_Manager::SetpolloAngulo(double angulo)
+{
+	bolita[*N_Pollos - 1]->SetpolloAngulo(angulo);
+}
+bool Game_Manager::getpolloHabilidad()
+{
+	return bolita[*N_Pollos - 1]->habilidad;
 }

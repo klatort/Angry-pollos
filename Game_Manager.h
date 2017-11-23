@@ -22,7 +22,7 @@ public:
 	void KillEnemy();
 	void Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp1, System::Drawing::Bitmap ^bmp2, System::Drawing::Bitmap ^bmp3);
 	void Pollo_desaparece(System::Drawing::Graphics ^ g);
-	void Mover_pollos(double angulo, double t,double distancia);
+	void Mover_pollos(double t,double distancia);
 	bool Colision(Figura* a, Figura* b);
 	void CheckColision();
 	void CheckColisionC();
@@ -41,5 +41,10 @@ public:
 	void Mostrar_resortera(Graphics ^g);
 	void Pollo_en_resortera(int px, int py);
 	void Mostrar_resortera_liga(Graphics ^g, int px, int py);
+	void Habilidad_pollo();
+	void Habilidad_pollo2();
+	void SetpolloAngulo(double angulo);
+	bool getpolloHabilidad();
+	void Nuevo_angulo(double t, double distancia);
 };
 

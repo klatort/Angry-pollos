@@ -11,18 +11,20 @@ Pollo::Pollo(int px, int py)
 	fila = columna = 0;
 	x = px - l1/2;
 	y = py - l2/2;
-	if (x <= 110)
+	angulo = 0;
+	habilidad = true;
+	if (x + (l1 / 2) <= 110)
 		d = 1;
-	if (x > 110 + l1 / 2)
+	if (x + (l1 / 2) > 110)
 		d = -1;
 }
 void Pollo::Mostrar_pollo_resortera(int px, int py)
 {
 	x = px - l1 / 2;
 	y = py - l2 / 2;
-	if (x <= 110)
+	if (x + (l1 / 2) <= 110)
 		d = 1;
-	if (x > 110 + l1 / 2)
+	if (x + (l1 / 2) > 110)
 		d = -1;
 }
 
@@ -31,11 +33,12 @@ Pollo::~Pollo()
 }
 
 
-void Pollo::Mover(double angulo, double t,double distancia)
+void Pollo::Mover(double t,double distancia)
 {
 
 	if (y < 600-l1) {
-		y += (distancia/20)*(10*sin(angulo)*t + 0.5 * 9.81 * (t*t));
+		dy = (distancia/20)*(10*sin(angulo)*t + 0.5 * 9.81 * (t*t));
+		y += dy;
 		dx = (distancia / 20)*(10*cos(angulo)*t);
 		x += dx*bounce;
 	}
@@ -44,8 +47,12 @@ void Pollo::Mover(double angulo, double t,double distancia)
 		dx = 0;
 	}
 }
+void Pollo::Nuevo_angulo(double t, double distancia)
+{
+	angulo = atan2(((distancia / 20)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t))),(distancia / 20)*(10 * cos(angulo)*t));
+}
 
-void Pollo::Habilidad_Pollo()
+void Pollo::Habilidad_Pollo(int i)
 {
 
 }
@@ -61,11 +68,11 @@ void Pollo::Mostrar_pollo(System::Drawing::Graphics ^g, System::Drawing::Bitmap 
 		fila = 3;
 		columna++;
 		if (columna <= 3) {
-			System::Drawing::Rectangle cut = System::Drawing::Rectangle(0 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite);
+			System::Drawing::Rectangle cut = System::Drawing::Rectangle(0 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite-1);
 			g->DrawImage(bmp, x, y, cut, System::Drawing::GraphicsUnit::Pixel);
 		}
 		if (columna > 3) {
-			System::Drawing::Rectangle cut = System::Drawing::Rectangle(1 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite);
+			System::Drawing::Rectangle cut = System::Drawing::Rectangle(1 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite-1);
 			g->DrawImage(bmp, x, y, cut, System::Drawing::GraphicsUnit::Pixel);
 		}
 		if (columna > 6) { columna = 0; }
@@ -76,11 +83,11 @@ void Pollo::Mostrar_pollo(System::Drawing::Graphics ^g, System::Drawing::Bitmap 
 		fila = 2;
 		columna++;
 		if (columna <= 3) {
-			System::Drawing::Rectangle cut = System::Drawing::Rectangle(0 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite);
+			System::Drawing::Rectangle cut = System::Drawing::Rectangle(0 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite-1);
 			g->DrawImage(bmp, x, y, cut, System::Drawing::GraphicsUnit::Pixel);
 		}
 		if (columna > 3) {
-			System::Drawing::Rectangle cut = System::Drawing::Rectangle(1 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite);
+			System::Drawing::Rectangle cut = System::Drawing::Rectangle(1 * ancho_sprite, (fila*alto_sprite), ancho_sprite, alto_sprite-1);
 			g->DrawImage(bmp, x, y, cut, System::Drawing::GraphicsUnit::Pixel);
 		}
 		if (columna > 6) { columna = 0; }
@@ -104,4 +111,8 @@ void Pollo::Setbounce(float b)
 {
 	bounce *= b;
 	d *= -1;
+}
+void Pollo::SetpolloAngulo(double angulo)
+{
+	this->angulo = angulo;
 }

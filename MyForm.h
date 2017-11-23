@@ -62,7 +62,9 @@ namespace WindowsForms {
 		Bitmap ^imgpollo_azul;
 		int mousex = 0;
 		int mousey = 0;
+		double auxangulo = 0;
 		double tiempo = 0;
+		bool habilidad_usar = false;
 		bool pollo_moviendo = false;
 		bool apuntando = false;
 		Game_Manager* Nivel1;
@@ -105,6 +107,7 @@ namespace WindowsForms {
 			this->Text = L"MyForm";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			this->Click += gcnew System::EventHandler(this, &MyForm::MyForm_Click);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
 			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseDown);
 			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::MyForm_MouseMove);
@@ -120,8 +123,14 @@ namespace WindowsForms {
 
 		if (Nivel1->getN_Pollos() > 0 && apuntando == false) {
 			tiempo += 0.1;
-			Nivel1->Mover_pollos(Nivel1->Calcular_angulo(mousex, mousey), tiempo, Nivel1->Calcular_distancia(mousex, mousey));
-			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo,imgpollo_azul, imgpollo_amarillo);
+			if (Nivel1->getpolloHabilidad()) {
+				auxangulo = Nivel1->Calcular_distancia(mousex, mousey);
+				Nivel1->Mover_pollos(tiempo, auxangulo);
+			}
+			else {
+				Nivel1->Habilidad_pollo2();
+			}
+			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo,imgpollo_amarillo, imgpollo_azul);
 		}
 		else
 			tiempo = 0;
@@ -134,8 +143,9 @@ namespace WindowsForms {
 		if (apuntando)
 		{
 			Nivel1->Pollo_en_resortera(mousex, mousey);
-			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo, imgpollo_azul, imgpollo_amarillo);
+			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo, imgpollo_amarillo, imgpollo_azul);
 			Nivel1->Mostrar_resortera_liga(bg->Graphics, mousex, mousey);
+			Nivel1->SetpolloAngulo(Nivel1->Calcular_angulo(mousex, mousey));
 		}
 		g->FillEllipse(gcnew System::Drawing::SolidBrush(System::Drawing::Color::Green), 100, 500, 20, 20);
 		Wood1->Mover(bg->Graphics);
@@ -162,10 +172,7 @@ namespace WindowsForms {
 
 	}
 private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-	/*if (pollo_moviendo)
-		tiempo++;
-	else
-		tiempo = 0;*/
+	
 }
 private: System::Void MyForm_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 	if (apuntando) {
@@ -178,6 +185,7 @@ private: System::Void MyForm_MouseUp(System::Object^  sender, System::Windows::F
 		if (mousey < 400)
 			mousey = 400;
 		apuntando = false;
+		habilidad_usar = true;
 	}
 }
 
@@ -191,7 +199,7 @@ private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::F
 	}
 }
 private: System::Void MyForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-	if (pollo_moviendo == false) {
+	if (pollo_moviendo == false || Nivel1->getN_Pollos() < 1) {
 		apuntando = true;
 		pollo_moviendo = true;
 		mousey = e->Y;
@@ -217,6 +225,14 @@ private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows:
 			mousey = 600 - 25;
 		if (mousey < 400)
 			mousey = 400;
+	}
+}
+private: System::Void MyForm_Click(System::Object^  sender, System::EventArgs^  e){
+	if(pollo_moviendo && habilidad_usar)
+	{
+		Nivel1->Nuevo_angulo(tiempo, auxangulo);
+		Nivel1->Habilidad_pollo();
+		habilidad_usar = false;
 	}
 }
 };

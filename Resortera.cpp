@@ -14,7 +14,7 @@ Resortera::Resortera()
 double Resortera::Calcular_Angulo(double px, double py)
 {
 	angulo = System::Math::PI +atan2(py - y, px - x);
-	return (angulo);
+	return angulo;
 }
 
 double Resortera::Calcular_Distancia(double px, double py)
@@ -31,14 +31,14 @@ Resortera::~Resortera()
 void Resortera::Mostrar_resortera(Graphics ^g)
 {
 	Pen ^p = gcnew Pen(Color::Green);
-	g->DrawRectangle(p, x, y, 20, 80);
+	g->DrawRectangle(p, x, y, 20, 100);
 	Brush ^b = gcnew SolidBrush(Color::Brown);
-	g->FillRectangle(b, x, y, 20, 80);
+	g->FillRectangle(b, x, y, 20, 100);
 	//Cambiar esto por Bitmap
 }
 void Resortera::Mostrar_liga(Graphics ^g, int px, int py)
 {
-	System::Drawing::Pen^p = gcnew System::Drawing::Pen(System::Drawing::Color::Crimson,6);
+	System::Drawing::Pen^p = gcnew System::Drawing::Pen(System::Drawing::Color::Cornsilk,6);
 	g->DrawLine(p,x, y + 5, px, py);
 	g->DrawLine(p, x + 20, y + 5, px, py);
 }

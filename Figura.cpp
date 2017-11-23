@@ -51,3 +51,7 @@ void Figura::Mover(Graphics ^ g)
 void Figura::Mostrar(Graphics ^ g)
 {
 }
+int Figura::getd()
+{
+	return d;
+}
