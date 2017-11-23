@@ -13,8 +13,7 @@ void Cerdo::Mostrar(Graphics ^ g)
 void Cerdo::Mover(Graphics ^ g)
 {
 	x += dx;
-	if (y + l2 <= 600)
-		y += dy;
+	y += (y + l2 <= 590)? dy:0;
 	Mostrar(g);
 }
 
@@ -33,7 +32,7 @@ void Cerdo::Gravedad(int pdy)
 	dy = pdy;
 }
 
-Cerdo::Cerdo(int px, int py, int pl1, int pl2) :Figura(px, py)
+Cerdo::Cerdo(int px, int py, int pl1, int pl2) :Figura(px ,py)
 {
 	dx = 0;
 	dy = 10;

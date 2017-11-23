@@ -1,10 +1,10 @@
 #pragma once
 #include "Cerdo.h"
 #include "Tile.h"
-#include "Pollo.h"
 #include "Pollo_amarillo.h"
 #include "Pollo_azul.h"
 #include "Pollo_rojo.h"
+#include "Pollo.h"
 #include "Resortera.h"
 class Game_Manager
 {
@@ -22,9 +22,11 @@ public:
 	void KillEnemy();
 	void Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp1, System::Drawing::Bitmap ^bmp2, System::Drawing::Bitmap ^bmp3);
 	void Pollo_desaparece(System::Drawing::Graphics ^ g);
-	void Mover_pollos(double t,double distancia);
+	void Mover_pollos(double t, double distancia);
 	bool Colision(Figura* a, Figura* b);
 	void CheckColision();
+	void CheckDeath();
+	void NextLevel();
 	void CheckColisionC();
 	void CheckImpact();
 	void Insertar_Cerdos(Cerdo * nuevo);
@@ -36,8 +38,8 @@ public:
 	void Eliminar_test();
 	double Calcular_angulo(double px, double py);
 	double Calcular_distancia(double px, double py);
-	int getN_Pollos();
 	int getPolloy();
+	int getN_Pollos();
 	void Mostrar_resortera(Graphics ^g);
 	void Pollo_en_resortera(int px, int py);
 	void Mostrar_resortera_liga(Graphics ^g, int px, int py);

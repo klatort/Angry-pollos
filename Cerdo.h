@@ -3,7 +3,7 @@
 class Cerdo:
 	public Figura
 {
-	int dy, resistencia;
+	int resistencia;
 public:
 	void Mover(Graphics ^g);
 	void Mostrar(Graphics ^g);

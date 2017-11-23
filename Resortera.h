@@ -1,4 +1,5 @@
 #pragma once
+#include "Pollo.h"
 
 using namespace System::Drawing;
 class Resortera

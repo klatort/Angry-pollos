@@ -5,8 +5,7 @@
 void Tile::Mover(Graphics ^g)
 {
 	x += dx;
-	if (y + l2 <= 600)
-		y += dy;
+	y += (y + l2 <= 590)? dy:0;
 	Mostrar(g);
 }
 

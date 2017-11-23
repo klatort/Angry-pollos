@@ -29,6 +29,11 @@ Figura::~Figura()
 {
 }
 
+int Figura::getd()
+{
+	return d;
+}
+
 int Figura::getx()
 {
 	return x;
@@ -50,8 +55,4 @@ void Figura::Mover(Graphics ^ g)
 
 void Figura::Mostrar(Graphics ^ g)
 {
-}
-int Figura::getd()
-{
-	return d;
 }

@@ -3,15 +3,16 @@
 class Pollo :
 	public Figura
 {
-
+	int pos;
 public:
-	double dy;
 	bool habilidad;
 	float bounce;
+	Pollo();
 	Pollo(int px, int py);
 	~Pollo();
+	/*void Mover(double angulo, double t, double distancia);*/
 	double angulo;
-	void Mover(double t,double distancia);
+	void Mover(double t, double distancia);
 	void Nuevo_angulo(double t, double distancia);
 	virtual void Habilidad_Pollo(int i);
 	virtual void Mostrar_pollo(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
