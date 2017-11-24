@@ -5,7 +5,7 @@ class Tile:
 {
 	int resistencia;
 public:
-	void Mover();
+	virtual void Mover();
 	virtual void Mostrar(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
 	void Impulso(int pdx);
 	void Damage(int pdx);
