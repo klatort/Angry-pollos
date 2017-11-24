@@ -30,8 +30,8 @@ namespace WindowsForms {
 			Tile1_4 = new Tile(750, 250, 20, 80);
 			Tile1_5 = new Tile(700, 150, 80, 20);
 
-			Chancho1_1 = new Cerdo(700, 200, 30, 30);
-			Chancho1_2 = new Cerdo(780, 200, 30, 30);
+			Chancho1_1 = new Cerdo_desnudo(700, 200, 30, 30);
+			Chancho1_2 = new Cerdo_desnudo(780, 200, 30, 30);
 
 
 			Tile2_1 = new Tile(700, 500, 20, 80);
@@ -41,8 +41,8 @@ namespace WindowsForms {
 			Tile2_5 = new Tile(780, 400, 80, 20);//Glass
 			Tile2_6 = new Tile(800, 500, 20, 80);
 
-			Chancho2_1 = new Cerdo(710, 500, 30, 30);
-			Chancho2_2 = new Cerdo(760, 500, 30, 30);
+			Chancho2_1 = new Cerdo_desnudo(710, 500, 30, 30);
+			Chancho2_2 = new Cerdo_desnudo(760, 500, 30, 30);
 
 
 			Tile3_1 = new Tile(600, 500, 20, 80);
@@ -52,9 +52,9 @@ namespace WindowsForms {
 			Tile3_5 = new Tile(760, 500, 20, 80);
 			Tile3_6 = new Tile(760, 400, 80, 20);//Glass
 
-			Chancho3_1 = new Cerdo(640, 500, 30, 30);
-			Chancho3_2 = new Cerdo(720, 500, 30, 30);
-			Chancho3_3 = new Cerdo(800, 500, 30, 30);//Cascod
+			Chancho3_1 = new Cerdo_desnudo(640, 500, 30, 30);
+			Chancho3_2 = new Cerdo_desnudo(720, 500, 30, 30);
+			Chancho3_3 = new Cerdo_casco(800, 500, 30, 30);//Cascod
 
 			//Poner la resortera un poquito mas arriba
 
@@ -64,9 +64,9 @@ namespace WindowsForms {
 			Tile4_4 = new Tile(760, 500, 20, 80);
 			Tile4_5 = new Tile(720, 400, 80, 20);
 
-			Chancho4_1 = new Cerdo(640, 500, 30, 30);
-			Chancho4_2 = new Cerdo(700, 500, 30, 30);
-			Chancho4_3 = new Cerdo(800, 500, 30, 30);
+			Chancho4_1 = new Cerdo_desnudo(640, 500, 30, 30);
+			Chancho4_2 = new Cerdo_desnudo(700, 500, 30, 30);
+			Chancho4_3 = new Cerdo_desnudo(800, 500, 30, 30);
 
 			Tile5_1 = new Tile(500, 500, 20, 80);
 			Tile5_2 = new Tile(540, 400, 80, 20);
@@ -74,10 +74,10 @@ namespace WindowsForms {
 			Tile5_4 = new Tile(600, 400, 20, 20);
 			Tile5_5 = new Tile(600, 300, 20, 80);
 
-			Chancho5_1 = new Cerdo(540, 350, 30, 30);
-			Chancho5_2 = new Cerdo(560, 500, 30, 30);
-			Chancho5_3 = new Cerdo(700, 500, 30, 30);
-			Chancho5_4 = new Cerdo(750, 500, 30, 30);//Casco
+			Chancho5_1 = new Cerdo_desnudo(540, 350, 30, 30);
+			Chancho5_2 = new Cerdo_desnudo(560, 500, 30, 30);
+			Chancho5_3 = new Cerdo_desnudo(700, 500, 30, 30);
+			Chancho5_4 = new Cerdo_casco(750, 500, 30, 30);//Casco
 
 			Tile6_1 = new Tile(600, 400, 20, 20);
 			Tile6_3 = new Tile(600, 300, 20, 80);//Glass
@@ -85,9 +85,9 @@ namespace WindowsForms {
 			Tile6_5 = new Tile(700, 500, 20, 80);
 			Tile6_6 = new Tile(740, 400, 80, 20);
 
-			Chancho6_1 = new Cerdo(660, 500, 30, 30);//Casco
-			Chancho6_2 = new Cerdo(720, 500, 30, 30);//Casco
-			Chancho6_3 = new Cerdo(740, 350, 30, 30);//Casco
+			Chancho6_1 = new Cerdo_casco(660, 500, 30, 30);//Casco
+			Chancho6_2 = new Cerdo_casco(720, 500, 30, 30);//Casco
+			Chancho6_3 = new Cerdo_casco(740, 350, 30, 30);//Casco
 
 			imgpollo_rojo = gcnew Bitmap("Pollo_rojo.png");
 			imgpollo_azul = gcnew Bitmap("Pollo_azul.png");
