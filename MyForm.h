@@ -95,6 +95,7 @@ namespace WindowsForms {
 			textura_madera = gcnew Bitmap("Textura_madera.png");
 			imgcerdo = gcnew Bitmap("Cerdo.png");
 			imgresortera = gcnew Bitmap("Resortera.png");
+			imgcerdo_casco = gcnew Bitmap("Cerdo_casco.png");
 			//
 			//TODO: Add the constructor code here
 			//
@@ -108,6 +109,7 @@ namespace WindowsForms {
 		{
 			if (components)
 			{
+				delete imgcerdo_casco;
 				delete Nivel_Actual;
 				delete imgresortera;
 				delete imgcerdo;
@@ -135,6 +137,7 @@ namespace WindowsForms {
 		Bitmap ^imgpollo_azul;
 		Bitmap ^textura_madera;
 		Bitmap ^imgcerdo;
+		Bitmap ^imgcerdo_casco;
 		Bitmap ^imgresortera;
 		int mousex = 0;
 		int mousey = 0;
