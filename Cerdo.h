@@ -5,9 +5,9 @@ class Cerdo:
 {
 	int resistencia;
 public:
-	void Mover(Graphics ^g);
-	void Mostrar(Graphics ^g);
-	void Impulso(int pdx);
+	void Mover();
+	void Mostrar(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
+	void Impulso(int pdx, int d);
 	void Damage(int pdx);
 	void Gravedad(int pdy);
 	Cerdo(int px, int py, int pl1, int pl2);

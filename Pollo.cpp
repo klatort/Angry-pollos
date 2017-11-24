@@ -10,9 +10,6 @@ Pollo::Pollo(int px, int py)
 {
 	dx = 0;
 	dy = 0;
-	y = 500;
-	x = 100;
-//	l1 = l2 = 20;
 	l1 = l2 = 48;
 	bounce = 1;
 	fila = columna = 0;
@@ -31,53 +28,23 @@ Pollo::~Pollo()
 {
 }
 
-//void Pollo::Mover(double angulo, double t, double distancia)
-//{
-//	if (y < 600) {
-//		dy = (distancia / 10)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t));
-//		y += dy;
-//		dx = (distancia / 10)*(10 * cos(angulo)*t)*bounce;
-//		x += dx;
-//		pos = (y + (distancia / 10)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t))) > y ? x - dx + 50 : x;
-//	}
-//	if (y >= 60-l1) {
-//		y = 600-l1;
-//		dx = 0;
-//	}
-//}
 
-
-/*void Pollo::Mover(System::Drawing::Graphics ^ g, double angulo, double t,double distancia)
-{
-
-	if (y < 600) {
-		dy = (distancia / 10)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t));
-		y += dy;
-		dx = (distancia / 10)*(10 * cos(angulo)*t)*bounce;
-		x += dx;
-		pos = (y + (distancia / 10)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t))) > y ? x-dx+50:x;
-	}
-	 if(y >= 600) {
-		y = 600;
-		dx = 0;
-	}
-
-	g->FillEllipse(gcnew System::Drawing::SolidBrush(System::Drawing::Color::Green), pos, y, l1, l2);
-}*/
 
 void Pollo::Mover(double t, double distancia)
 {
-	if (y < 600) {
-		dy = (distancia / 10)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t));
-		y += dy;
-		dx = (distancia / 10)*(10 * cos(angulo)*t)*bounce;
-		x += dx;
-		//pos = (y + (distancia / 10)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t))) > y ? x - dx + 50 : x;
-	}
-	if (y >= 600 - l1) {
-		y = 600 - l1;
-		dx = 0;
-	}
+		if (y < 600-l1) {
+			dy = (distancia / 20)*(10 * sin(angulo)*t + 0.5 * 9.81 * (t*t));
+			y += dy;
+			dx = (distancia / 20)*(10 * cos(angulo)*t)*bounce;
+			x += dx;
+
+		}
+		if (y >= 600 - l1) {
+			dy = 0;
+			y = 600 - l1;
+			dx = 0;		
+			habilidad = false;
+		}
 }
 
 void Pollo::Nuevo_angulo(double t, double distancia)
@@ -147,7 +114,7 @@ void Pollo::Mostrar_pollo(System::Drawing::Graphics ^ g, System::Drawing::Bitmap
 
 void Pollo::Mostrar_pollo_resortera(int px, int py)
 {
-	x = px - l1 / 2;
+ 	x = px - l1 / 2;
 	y = py - l2 / 2;
 	if (x + (l1 / 2) <= 110)
 		 d = 1;
@@ -158,6 +125,7 @@ void Pollo::Mostrar_pollo_resortera(int px, int py)
 void Pollo::Setbounce(float b) 
 {
 	bounce *= b;
+	if (y < 600 - l1)
 	d *= -1;
 }
 

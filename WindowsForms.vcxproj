@@ -132,6 +132,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Provisional\WindowsForms\WindowsForms\Juego.cpp" />
     <ClCompile Include="Cerdo.cpp" />
     <ClCompile Include="Figura.cpp" />
     <ClCompile Include="Game_Manager.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Provisional\WindowsForms\WindowsForms\Juego.h" />
     <ClInclude Include="Cerdo.h" />
     <ClInclude Include="Figura.h" />
     <ClInclude Include="Game_Manager.h" />

@@ -21,14 +21,6 @@ Game_Manager::~Game_Manager()
 	delete N_Tiles;
 }
 
-void Game_Manager::Mostrar_Cerdos(Graphics ^ g)
-{
-	for (int i = 0; i < *N_Cerdos; i++)
-	{
-		C[i]->Mostrar(g);
-	}
-}
-
 bool Game_Manager::Colision(Figura * a, Figura * b)
 {
 	System::Drawing::Rectangle rectangleA;
@@ -58,6 +50,10 @@ void Game_Manager::CheckImpact()
 			if (Colision(a, b))
 			{
 				bolita[j]->Setbounce(-1/2);
+				if (bolita[j]->dy < 0)
+				{
+					bolita[j]->dy = bolita[j]->dy * -1;
+				}
 				a->Damage(bolita[j]->dx);
 				a->Impulso(bolita[j]->dx);
 			}
@@ -78,7 +74,7 @@ void Game_Manager::KillEnemy()
 			{
 				bolita[j]->Setbounce(-1 / 2);
 				a->Damage(bolita[j]->dx);
-				a->Impulso(bolita[j]->dx);
+				a->Impulso(bolita[j]->dx,bolita[j]->getd());
 			}
 		}
 	}
@@ -86,7 +82,7 @@ void Game_Manager::KillEnemy()
 
 void Game_Manager::Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp1, System::Drawing::Bitmap ^bmp2, System::Drawing::Bitmap ^bmp3)
 {
-	for (int i = 0; i < *N_Pollos; i++)
+	 for (int i = 0; i < *N_Pollos; i++)
 	{
 		if (dynamic_cast<Pollo_rojo*>(bolita[i]))
 			bolita[i]->Mostrar_pollo(g, bmp1);
@@ -97,41 +93,21 @@ void Game_Manager::Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing:
 	}
 }
 
-void Game_Manager::Pollo_desaparece(System::Drawing::Graphics ^ g)
+bool Game_Manager::Pollo_desaparece(System::Drawing::Graphics ^ g,int i)
 {
-	for (int i = 0; i < *N_Pollos; i++) {
-		if (bolita[i]->getx() > g->VisibleClipBounds.Right || bolita[i]->getx() + bolita[i]->getL1() < g->VisibleClipBounds.Left)
-			Eliminar_Pollo(i);
-	}
-}
 
+		if (bolita[i]->getx() > g->VisibleClipBounds.Right|| bolita[i]->getx() + bolita[i]->getL1() < g->VisibleClipBounds.Left)
+			return true;
+
+}
+void Game_Manager::Fin_turno(int i)
+{
+	if (bolita[i]->habilidad == false)
+		Eliminar_test();
+}
 void Game_Manager::Mover_pollos(double t, double distancia)
 {
 	bolita[*N_Pollos - 1]->Mover(t, distancia);
-}
-
-void Game_Manager::Mover_Tiles(Graphics ^g)
-{
-	for (int i = 0; i < *N_Tiles; i++)
-	{
-		T[i]->Mover(g);
-	}
-}
-
-void Game_Manager::Mover_Cerdos(Graphics ^ g)
-{
-	for (int i = 0; i < *N_Cerdos; i++)
-	{
-		C[i]->Mover(g);
-	}
-}
-
-void Game_Manager::Mostrar_Tiles(Graphics ^ g)
-{
-	for (int i = 0; i < *N_Tiles; i++)
-	{
-		T[i]->Mostrar(g);
-	}
 }
 
 void Game_Manager::CheckColision()
@@ -192,7 +168,7 @@ void Game_Manager::Insertar_Cerdos(Cerdo * nuevo)
 		Aux[i] = C[i];
 	}
 	Aux[*N_Cerdos] = nuevo;
-	*N_Cerdos += 1;
+	*N_Cerdos =*N_Cerdos+ 1;
 	C = Aux;
 }
 
@@ -204,7 +180,7 @@ void Game_Manager::Insertar_Tile(Tile * nuevo)
 		Aux[i] = T[i];
 	}
 	Aux[*N_Tiles] = nuevo;
-	*N_Tiles += 1;
+	*N_Tiles = *N_Tiles+ 1;
 	T = Aux;
 }
 void Game_Manager::Insertar_Pollo(Pollo * nuevo)
@@ -215,7 +191,7 @@ void Game_Manager::Insertar_Pollo(Pollo * nuevo)
 		Aux[i] = bolita[i];
 	}
 	Aux[*N_Pollos] = nuevo;
-	*N_Pollos += 1;
+	*N_Pollos =*N_Pollos + 1;
 	bolita = Aux;
 }
 void Game_Manager::Eliminar_test()
@@ -225,7 +201,7 @@ void Game_Manager::Eliminar_test()
 	{
 		Aux[i] = bolita[i];
 	}
-	*N_Pollos -= 1;
+	*N_Pollos =*N_Pollos- 1;
 	bolita = Aux;
 }
 
@@ -250,8 +226,8 @@ void Game_Manager::Eliminar_Cerdo(int pos)
 void Game_Manager::Eliminar_Pollo(int pos)
 {
 	if (pos < *N_Pollos && pos >= 0) {
-		for (int i = pos; i < *N_Pollos - 1; i++)
-			bolita[i] = bolita[i + 1];
+		for (int i = 0; i < pos-1; i++)
+			bolita[i] = bolita[i+1];
 		*N_Pollos = *N_Pollos - 1;
 	}
 }
@@ -264,19 +240,29 @@ double Game_Manager::Calcular_distancia(double px, double py)
 {
 	return resortera->Calcular_Distancia(px, py);
 }
-int Game_Manager::getPolloy()
+int Game_Manager::getPolloy(int i)
 {
-	for (int i = 0; i < *N_Pollos; i++)
-	return bolita[*N_Pollos - 1]->gety();
+
+	return bolita[i]->gety();
+}
+double Game_Manager::getPollody(int i)
+{
+
+	return bolita[i]->dy;
+}
+double Game_Manager::getPollodx(int i)
+{
+
+	return bolita[i]->dx;
 }
 int Game_Manager::getN_Pollos()
 {
 	return *N_Pollos;
 }
 
-void Game_Manager::Mostrar_resortera(Graphics ^g)
+void Game_Manager::Mostrar_resortera(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp)
 {
-	resortera->Mostrar_resortera(g);
+	resortera->Mostrar_resortera(g,bmp);
 }
 
 void Game_Manager::Pollo_en_resortera(int px, int py)
@@ -294,11 +280,13 @@ void Game_Manager::Nuevo_angulo(double t, double distancia)
 }
 void Game_Manager::Habilidad_pollo()
 {
-	if (dynamic_cast<Pollo_rojo*>(bolita[*N_Pollos - 1]))
-		bolita[*N_Pollos]->Habilidad_Pollo(0);
+	if (dynamic_cast<Pollo_rojo*>(bolita[*N_Pollos - 1])) {
+
+		bolita[*N_Pollos - 1]->habilidad = true;
+	}
 	if (dynamic_cast<Pollo_amarillo*>(bolita[*N_Pollos - 1])) {
 
-		bolita[*N_Pollos - 1]->Habilidad_Pollo(0);
+		bolita[*N_Pollos - 1]->habilidad = false;
 
 	}
 	if (dynamic_cast<Pollo_azul*>(bolita[*N_Pollos - 1]))
@@ -306,19 +294,21 @@ void Game_Manager::Habilidad_pollo()
 		bolita[*N_Pollos - 1]->habilidad = false;
 		Pollo_azul* polloaux1 = new Pollo_azul(bolita[*N_Pollos - 1]->getx(), bolita[*N_Pollos - 1]->gety(), bolita[*N_Pollos - 1]->getd(), bolita[*N_Pollos - 1]->angulo);
 		Pollo_azul* polloaux2 = new Pollo_azul(bolita[*N_Pollos - 1]->getx(), bolita[*N_Pollos - 1]->gety(), bolita[*N_Pollos - 1]->getd(), bolita[*N_Pollos - 1]->angulo);
+
 		Insertar_Pollo(polloaux1);
 		Insertar_Pollo(polloaux2);
-
 	}
 
 }
 void Game_Manager::Habilidad_pollo2()
 {
-	if (dynamic_cast<Pollo_rojo*>(bolita[*N_Pollos - 1]))
-		bolita[*N_Pollos - 1]->habilidad = true;
+	if (dynamic_cast<Pollo_rojo*>(bolita[*N_Pollos - 1])) {
+		bolita[*N_Pollos - 1]->Habilidad_Pollo(0);
+	}
 	if (dynamic_cast<Pollo_amarillo*>(bolita[*N_Pollos - 1])) {
 
 		bolita[*N_Pollos - 1]->Habilidad_Pollo(0);
+		bolita[*N_Pollos - 1]->habilidad = false;
 
 	}
 	if (dynamic_cast<Pollo_azul*>(bolita[*N_Pollos - 1]))
@@ -330,7 +320,7 @@ void Game_Manager::Habilidad_pollo2()
 			bolita[i]->Habilidad_Pollo(cont);
 			cont++;
 		}
-
+		bolita[*N_Pollos - 1]->habilidad = false;
 	}
 
 }
@@ -338,7 +328,48 @@ void Game_Manager::SetpolloAngulo(double angulo)
 {
 	bolita[*N_Pollos - 1]->SetpolloAngulo(angulo);
 }
-bool Game_Manager::getpolloHabilidad()
+bool Game_Manager::getpolloHabilidad(int i)
 {
-	return bolita[*N_Pollos - 1]->habilidad;
+	return bolita[i]->habilidad;
+}
+bool Game_Manager::getpolloHabilidad_ultimo()
+{
+	return bolita[*N_Pollos -1]->habilidad;
+}
+void Game_Manager::setpolloHabilidad(int i)
+{
+
+		bolita[i]->habilidad = false;
+}
+
+void Game_Manager::Mover_Tiles()
+{
+	for (int i = 0; i < *N_Tiles; i++)
+	{
+		T[i]->Mover();
+	}
+}
+
+void Game_Manager::Mover_Cerdos()
+{
+	for (int i = 0; i < *N_Cerdos; i++)
+	{
+		C[i]->Mover();
+	}
+}
+
+void Game_Manager::Mostrar_Cerdos(Graphics ^ g, System::Drawing::Bitmap ^bmp)
+{
+	for (int i = 0; i < *N_Cerdos; i++)
+	{
+		C[i]->Mostrar(g,bmp);
+	}
+}
+
+void Game_Manager::Mostrar_Tiles(Graphics ^ g, System::Drawing::Bitmap ^bmp)
+{
+	for (int i = 0; i < *N_Tiles; i++)
+	{
+		T[i]->Mostrar(g,bmp);
+	}
 }

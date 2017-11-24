@@ -2,11 +2,11 @@
 
 
 
-void Tile::Mover(Graphics ^g)
+void Tile::Mover()
 {
+	dx /= 1.3;
 	x += dx;
-	y += (y + l2 <= 590)? dy:0;
-	Mostrar(g);
+	y += (y + l2 <= 600)? dy:0;
 }
 
 void Tile::Damage(int pdx)
@@ -14,18 +14,19 @@ void Tile::Damage(int pdx)
 	resistencia -= pdx;
 }
 
-void Tile::Mostrar(Graphics ^g)
+void Tile::Mostrar(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp)
 {
-	Pen ^p = gcnew Pen(Color::Green);
-	g->DrawRectangle(p, x, y, l1, l2);
-	Brush ^b = resistencia >= 10? gcnew SolidBrush(Color::Orange): gcnew SolidBrush(Color::Red);
-	g->FillRectangle(b, x, y, l1, l2);
-	//Cambiar esto por Bitmap
+	g->DrawImage(bmp, x, y, l1, l2);
 }
 
 void Tile::Impulso(int pdx)
 {
-	dx = pdx/2;
+	if (pdx == 0)
+	{
+		dx = 48;
+	}
+	else
+	dx = pdx;
 }
 
 void Tile::Gravedad(int pdy)

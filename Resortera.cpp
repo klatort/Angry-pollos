@@ -26,18 +26,20 @@ double Resortera::Calcular_Distancia(double px, double py)
 Resortera::~Resortera()
 {
 }
-void Resortera::Mostrar_resortera(Graphics ^g)
+void Resortera::Mostrar_resortera(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp)
 {
-	Pen ^p = gcnew Pen(Color::Green);
-	g->DrawRectangle(p, x, y, 20, 100);
-	Brush ^b = gcnew SolidBrush(Color::Brown);
-	g->FillRectangle(b, x, y, 20, 100);
-	//Cambiar esto por Bitmap
+		g->DrawImage(bmp, x, y, 60, 108);
 }
 
 void Resortera::Mostrar_liga(Graphics ^ g, int px, int py)
 {
-	System::Drawing::Pen^p = gcnew System::Drawing::Pen(System::Drawing::Color::Crimson, 6);
-	g->DrawLine(p, x, y + 5, px, py);
-	g->DrawLine(p, x + 20, y + 5, px, py);
+	System::Drawing::Pen^p = gcnew System::Drawing::Pen(System::Drawing::Color::DarkRed, 6);
+	g->DrawLine(p, x, y + 25, px, py);
+	g->DrawLine(p, x + 52, y + 25, px, py);
+}
+void Resortera::Mostrar_angulo(Graphics ^g)
+{
+	Pen ^p = gcnew Pen(Color::Yellow);
+	Drawing2D::GraphicsPath^path = gcnew Drawing2D::GraphicsPath();
+	g->DrawPath(p, path);//(distancia / 20)*(10 * sin(angulo)*10 + 0.5 * 9.81 * (10*10));
 }
