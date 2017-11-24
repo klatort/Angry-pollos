@@ -6,6 +6,8 @@
 #include "Pollo_rojo.h"
 #include "Pollo.h"
 #include "Resortera.h"
+#include "Cerdo_casco.h"
+#include "Cerdo_desnudo.h"
 class Game_Manager
 {
 	Cerdo** C;
@@ -23,7 +25,7 @@ public:
 	void Mover_Tiles();
 	void Mover_Cerdos();
 	void Mostrar_Tiles(Graphics ^g ,Bitmap ^bmp);
-	void Mostrar_Cerdos(Graphics ^g ,Bitmap ^bmp);
+	void Mostrar_Cerdos(Graphics ^g ,Bitmap ^bmp1,Bitmap^bmp2);
 	void Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp1, System::Drawing::Bitmap ^bmp2, System::Drawing::Bitmap ^bmp3);
 	bool Pollo_desaparece(System::Drawing::Graphics ^ g, int i);
 	void Mover_pollos(double t, double distancia);
