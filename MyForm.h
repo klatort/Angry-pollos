@@ -213,7 +213,7 @@ namespace WindowsForms {
 		Game->GetNivel()[*Nivel_Actual - 1]->Mover_Tiles();
 		Game->GetNivel()[*Nivel_Actual - 1]->Mover_Cerdos();
 		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_Tiles(bg->Graphics,textura_madera);
-		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_Cerdos(bg->Graphics, imgcerdo);
+		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_Cerdos(bg->Graphics, imgcerdo,imgcerdo_casco;);
 		if (Game->GetNivel()[*Nivel_Actual-1]->getN_Pollos() > 0 && apuntando == false&&habilidad_usar) {
 			tiempo += 0.1;
 			if (Game->GetNivel()[*Nivel_Actual-1]->getpolloHabilidad_ultimo()) {
