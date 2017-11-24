@@ -20,7 +20,10 @@ Game_Manager::~Game_Manager()
 {
 	delete N_Tiles;
 }
-
+void Game_Manager::Mostrar_fondo(Graphics ^g ,Bitmap ^bmp)
+{
+	g->DrawBitmap(g->VisibleClipBounds.Left, g->VisibleClipBounds.Top, g->VisibleClipBounds.Right, g->VisibleClipBounds.Bottom);
+}
 bool Game_Manager::Colision(Figura * a, Figura * b)
 {
 	System::Drawing::Rectangle rectangleA;
