@@ -98,6 +98,7 @@ namespace WindowsForms {
 			imgcerdo = gcnew Bitmap("Cerdo.png");
 			imgresortera = gcnew Bitmap("Resortera.png");
 			imgcerdo_casco = gcnew Bitmap("Cerdo_casco.png");
+			fondo = gcnew Bitmap("Fondo.png");
 			//
 			//TODO: Add the constructor code here
 			//
@@ -111,6 +112,7 @@ namespace WindowsForms {
 		{
 			if (components)
 			{
+				delete fondo;
 				delete textura_roca;
 				delete textura_glass;
 				delete imgcerdo_casco;
@@ -145,6 +147,7 @@ namespace WindowsForms {
 		Bitmap ^imgcerdo;
 		Bitmap ^imgcerdo_casco;
 		Bitmap ^imgresortera;
+		Bitmap ^fondo;
 		int mousex = 0;
 		int mousey = 0;
 		int tiempo_real = 0;
@@ -216,6 +219,7 @@ namespace WindowsForms {
 		Graphics ^g = this->CreateGraphics();
 		BufferedGraphicsContext ^bgct = BufferedGraphicsManager::Current;
 		BufferedGraphics^bg = bgct->Allocate(g, this->ClientRectangle);
+		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_fondo(bg->Graphics,fondo);
 		Game->GetNivel()[*Nivel_Actual - 1]->Mover_Tiles();
 		Game->GetNivel()[*Nivel_Actual - 1]->Mover_Cerdos();
 		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_Tiles(bg->Graphics,textura_madera);
