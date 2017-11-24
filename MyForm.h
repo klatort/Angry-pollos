@@ -1,4 +1,5 @@
 #pragma once
+#include "Juego.h"
 #include "Game_Manager.h"
 namespace WindowsForms {
 
@@ -18,14 +19,18 @@ namespace WindowsForms {
 		MyForm(void)
 		{
 			InitializeComponent();
-			Chanchito = new Cerdo(850, 100, 30, 30);
+			Nivel_Actual = new int;
+			*Nivel_Actual = 1;
+			Chanchito = new Cerdo(Width-100, 100, 30, 30);
 			Nivel1 = new Game_Manager();
-			Wood1 = new Tile(900,500,20,80);
-			Wood2 = new Tile(850,300, 80, 50);
+			Nivel2 = new Game_Manager();
+			Wood1_1 = new Tile(Width,500,20,80);
+			Wood1_2 = new Tile(Width-100,300, 80, 20);
+			Wood2_1 = new Tile(600, 300, 20, 80);
+			Game = new Juego();
 			imgpollo_rojo = gcnew Bitmap("Pollo_rojo.png");
 			imgpollo_azul = gcnew Bitmap("Pollo_azul.png");
 			imgpollo_amarillo = gcnew Bitmap("Pollo_amarillo.png");
-
 			gr = CreateGraphics();
 			//
 			//TODO: Add the constructor code here
@@ -40,13 +45,15 @@ namespace WindowsForms {
 		{
 			if (components)
 			{
+				delete Nivel_Actual;
+				delete Game;
 				delete imgpollo_amarillo;
 				delete imgpollo_azul;
 				delete imgpollo_rojo;
 				delete Chanchito;
-				delete Wood1;
-				delete Wood2;
-				delete Nivel1;
+				delete Wood1_1, Wood1_2;
+				delete Wood2_1;
+				delete Nivel1, Nivel2;
 				delete components;
 			}
 		}
@@ -55,8 +62,8 @@ namespace WindowsForms {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		Tile* Wood1;
-		Tile* Wood2;
+		
+		Tile* Wood1_1, *Wood1_2, *Wood2_1;
 		Cerdo* Chanchito;
 		Bitmap ^imgpollo_rojo;
 		Bitmap ^imgpollo_amarillo;
@@ -68,7 +75,9 @@ namespace WindowsForms {
 		bool habilidad_usar = false;
 		bool pollo_moviendo = false;
 		bool apuntando = false;
-		Game_Manager* Nivel1;
+		int* Nivel_Actual;
+		Juego* Game;
+		Game_Manager* Nivel1, *Nivel2;
 		Graphics ^gr;
 	private: System::Windows::Forms::Timer^  DeltaTime;
 	private: System::Windows::Forms::Timer^  timer1;
@@ -98,8 +107,6 @@ namespace WindowsForms {
 			// 
 			// timer1
 			// 
-			this->timer1->Enabled = true;
-			this->timer1->Interval = 1000;
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
 			// PhysicsTime
@@ -131,58 +138,62 @@ namespace WindowsForms {
 		BufferedGraphicsContext ^bgct = BufferedGraphicsManager::Current;
 		BufferedGraphics^bg = bgct->Allocate(g, this->ClientRectangle);
 
-		if (Nivel1->getN_Pollos() > 0 && !apuntando) {
+		if(pollo_moviendo && !apuntando)
+			mousex = mousey = 0;
+
+		if (Game->GetNivel()[*Nivel_Actual - 1]->getN_Pollos() > 0 && !apuntando) {
 			tiempo += 0.1;
-			if (Nivel1->getpolloHabilidad()) {
-				auxangulo = Nivel1->Calcular_distancia(mousex, mousey);
-				Nivel1->Mover_pollos(tiempo, auxangulo);
+			if (Game->GetNivel()[*Nivel_Actual-1]->getpolloHabilidad()) {
+				auxangulo = Game->GetNivel()[*Nivel_Actual-1]->Calcular_distancia(mousex, mousey);
+				Game->GetNivel()[*Nivel_Actual-1]->Mover_pollos(tiempo, auxangulo);
 				
 			}
 			else {
-				Nivel1->Habilidad_pollo2();
+				Game->GetNivel()[*Nivel_Actual-1]->Habilidad_pollo2();
 			}
-			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo, imgpollo_amarillo, imgpollo_azul);
+			Game->GetNivel()[*Nivel_Actual-1]->Mostrar_pollos(bg->Graphics, imgpollo_rojo, imgpollo_amarillo, imgpollo_azul);
 		}
 		else
 			tiempo = 0;
-		if (Nivel1->getN_Pollos() > 0) {
-			if (Nivel1->getPolloy() == 600 - 48)
+
+		if (Game->GetNivel()[*Nivel_Actual-1]->getN_Pollos() > 0) {
+			if (Game->GetNivel()[*Nivel_Actual-1]->getPolloy() >= 600)
 			{
 				pollo_moviendo = false;
 			}
 		}
 		if (apuntando)
 		{
-			Nivel1->Pollo_en_resortera(mousex, mousey);
-			Nivel1->Mostrar_pollos(bg->Graphics, imgpollo_rojo, imgpollo_amarillo, imgpollo_azul);
-			Nivel1->Mostrar_resortera_liga(bg->Graphics, mousex, mousey);
-			Nivel1->SetpolloAngulo(Nivel1->Calcular_angulo(mousex, mousey));
+			Game->GetNivel()[*Nivel_Actual-1]->Pollo_en_resortera(mousex, mousey);
+			Game->GetNivel()[*Nivel_Actual-1]->Mostrar_pollos(bg->Graphics, imgpollo_rojo, imgpollo_amarillo, imgpollo_azul);
+			Game->GetNivel()[*Nivel_Actual-1]->Mostrar_resortera_liga(bg->Graphics, mousex, mousey);
+			Game->GetNivel()[*Nivel_Actual-1]->SetpolloAngulo(Game->GetNivel()[*Nivel_Actual-1]->Calcular_angulo(mousex, mousey));
 		}
 		g->FillEllipse(gcnew System::Drawing::SolidBrush(System::Drawing::Color::Green), 100, 500, 20, 20);
-		Wood1->Mover(bg->Graphics);
-		Wood2->Mover(bg->Graphics);
-		Chanchito->Mover(bg->Graphics);
-		Wood1->Mostrar(bg->Graphics);
-		Wood2->Mostrar(bg->Graphics);
-		Chanchito->Mostrar(bg->Graphics);
-		Nivel1->Pollo_desaparece(bg->Graphics);
-		Nivel1->Mostrar_resortera(bg->Graphics);
+		Game->GetNivel()[*Nivel_Actual - 1]->Mover_Tiles(bg->Graphics);
+		Game->GetNivel()[*Nivel_Actual - 1]->Mover_Cerdos(bg->Graphics);
+		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_Tiles(bg->Graphics);
+		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_Cerdos(bg->Graphics);
+		Game->GetNivel()[*Nivel_Actual - 1]->Pollo_desaparece(bg->Graphics);
+		Game->GetNivel()[*Nivel_Actual - 1]->Mostrar_resortera(bg->Graphics);
 		bg->Render(g);
 		delete bg;
 		delete bgct;
 		delete g;
 	}
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-	Nivel1->Insertar_Tile(Wood1);
-	Nivel1->Insertar_Tile(Wood2);
+	Nivel1->Insertar_Tile(Wood1_1);
+	Nivel1->Insertar_Tile(Wood1_2);
 	Nivel1->Insertar_Cerdos(Chanchito);
-
+	Nivel2->Insertar_Tile(Wood2_1);
+	Game->Insertar_Nivel(Nivel1);
+	Game->Insertar_Nivel(Nivel2);
 	}
 	private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 		if (pollo_moviendo && habilidad_usar)
-			 {
-			Nivel1->Nuevo_angulo(tiempo, auxangulo);
-			Nivel1->Habilidad_pollo();
+			{
+			Game->GetNivel()[*Nivel_Actual - 1]->Nuevo_angulo(tiempo, auxangulo);
+			Game->GetNivel()[*Nivel_Actual - 1]->Habilidad_pollo();
 			habilidad_usar = false;
 			}
 	}
@@ -210,17 +221,17 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 	switch (e->KeyCode)
 	{
-	case Keys::C:	if (Nivel1->getN_Pollos() > 0)
-		Nivel1->Eliminar_test(); break;
+	case Keys::C:	if (Game->GetNivel()[*Nivel_Actual-1]->getN_Pollos() > 0)
+		Game->GetNivel()[*Nivel_Actual-1]->Eliminar_test();  break;
 	default:
 		break;
 	}
 }
 private: System::Void PhysicsTime_Tick(System::Object^  sender, System::EventArgs^  e) {
-	Nivel1->CheckImpact();
-	Nivel1->KillEnemy();
-	Nivel1->CheckColision();
-	Nivel1->CheckColisionC();
+	Game->GetNivel()[*Nivel_Actual-1]->CheckImpact();
+	Game->GetNivel()[*Nivel_Actual-1]->KillEnemy();
+	Game->GetNivel()[*Nivel_Actual-1]->CheckColision();
+	Game->GetNivel()[*Nivel_Actual-1]->CheckColisionC();
 }
 private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 	if (apuntando) {
@@ -235,7 +246,7 @@ private: System::Void MyForm_MouseMove(System::Object^  sender, System::Windows:
 	}
 }
 private: System::Void MyForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-	if (pollo_moviendo == false || Nivel1->getN_Pollos() < 1) {
+	if (pollo_moviendo == false || Game->GetNivel()[*Nivel_Actual-1]->getN_Pollos() < 1) {
 		apuntando = true;
 		pollo_moviendo = true;
 		mousey = e->Y;
@@ -248,7 +259,7 @@ private: System::Void MyForm_MouseDown(System::Object^  sender, System::Windows:
 			mousey = 400;
 		//Pollo_azul*repoio = new Pollo_azul(mousex, mousey);
 		Pollo_amarillo*repoio = new Pollo_amarillo(mousex, mousey);
-		Nivel1->Insertar_Pollo(repoio);
+		Game->GetNivel()[*Nivel_Actual-1]->Insertar_Pollo(repoio);
 	}
 }
 };

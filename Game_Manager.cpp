@@ -21,6 +21,14 @@ Game_Manager::~Game_Manager()
 	delete N_Tiles;
 }
 
+void Game_Manager::Mostrar_Cerdos(Graphics ^ g)
+{
+	for (int i = 0; i < *N_Cerdos; i++)
+	{
+		C[i]->Mostrar(g);
+	}
+}
+
 bool Game_Manager::Colision(Figura * a, Figura * b)
 {
 	System::Drawing::Rectangle rectangleA;
@@ -100,6 +108,30 @@ void Game_Manager::Pollo_desaparece(System::Drawing::Graphics ^ g)
 void Game_Manager::Mover_pollos(double t, double distancia)
 {
 	bolita[*N_Pollos - 1]->Mover(t, distancia);
+}
+
+void Game_Manager::Mover_Tiles(Graphics ^g)
+{
+	for (int i = 0; i < *N_Tiles; i++)
+	{
+		T[i]->Mover(g);
+	}
+}
+
+void Game_Manager::Mover_Cerdos(Graphics ^ g)
+{
+	for (int i = 0; i < *N_Cerdos; i++)
+	{
+		C[i]->Mover(g);
+	}
+}
+
+void Game_Manager::Mostrar_Tiles(Graphics ^ g)
+{
+	for (int i = 0; i < *N_Tiles; i++)
+	{
+		T[i]->Mostrar(g);
+	}
 }
 
 void Game_Manager::CheckColision()

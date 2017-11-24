@@ -23,6 +23,10 @@ public:
 	void Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp1, System::Drawing::Bitmap ^bmp2, System::Drawing::Bitmap ^bmp3);
 	void Pollo_desaparece(System::Drawing::Graphics ^ g);
 	void Mover_pollos(double t, double distancia);
+	void Mover_Tiles(Graphics ^g);
+	void Mover_Cerdos(Graphics ^g);
+	void Mostrar_Tiles(Graphics ^g);
+	void Mostrar_Cerdos(Graphics ^g);
 	bool Colision(Figura* a, Figura* b);
 	void CheckColision();
 	void CheckDeath();
