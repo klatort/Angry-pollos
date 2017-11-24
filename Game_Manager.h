@@ -24,7 +24,7 @@ public:
 	void KillEnemy();
 	void Mover_Tiles();
 	void Mover_Cerdos();
-	void Mostrar_Tiles(Graphics ^g ,Bitmap ^bmp);
+	void Mostrar_Tiles(Graphics ^g ,Bitmap ^bmp1,Bitmap^bmp2,Bitmap ^bmp3);
 	void Mostrar_Cerdos(Graphics ^g ,Bitmap ^bmp1,Bitmap^bmp2);
 	void Mostrar_pollos(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp1, System::Drawing::Bitmap ^bmp2, System::Drawing::Bitmap ^bmp3);
 	bool Pollo_desaparece(System::Drawing::Graphics ^ g, int i);
