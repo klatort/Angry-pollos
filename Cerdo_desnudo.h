@@ -4,7 +4,7 @@ class Cerdo_desnudo :
 {
 public:
 	Cerdo_desnudo();
-	Mostrar(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
+	void Mostrar(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
 	~Cerdo_desnudo();
 };
 
