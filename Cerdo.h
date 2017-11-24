@@ -6,7 +6,7 @@ class Cerdo:
 	int resistencia;
 public:
 	void Mover();
-	void Mostrar(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
+	virtual void Mostrar(System::Drawing::Graphics ^g, System::Drawing::Bitmap ^bmp);
 	void Impulso(int pdx, int d);
 	void Damage(int pdx);
 	void Gravedad(int pdy);
