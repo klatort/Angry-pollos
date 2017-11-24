@@ -21,6 +21,7 @@ public:
 
 	Game_Manager();
 	~Game_Manager();
+	void Mostrar_fondo(Graphics ^g ,Bitmap ^bmp);
 	void KillEnemy();
 	void Mover_Tiles();
 	void Mover_Cerdos();
