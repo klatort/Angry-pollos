@@ -358,11 +358,14 @@ void Game_Manager::Mover_Cerdos()
 	}
 }
 
-void Game_Manager::Mostrar_Cerdos(Graphics ^ g, System::Drawing::Bitmap ^bmp)
+void Game_Manager::Mostrar_Cerdos(Graphics ^ g, System::Drawing::Bitmap ^bmp1,System::Drawing::Bitmap ^bmp2)
 {
 	for (int i = 0; i < *N_Cerdos; i++)
 	{
-		C[i]->Mostrar(g,bmp);
+		if (dynamic_cast<Cerdo_desnudo*>(bolita[i]))
+			bolita[i]->Mostrar_cerdo(g, bmp1);
+		if (dynamic_cast<Cerdo_casco*>(bolita[i]))
+			bolita[i]->Mostrar_cerdo(g, bmp2);
 	}
 }
 
