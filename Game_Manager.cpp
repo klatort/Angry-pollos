@@ -369,10 +369,15 @@ void Game_Manager::Mostrar_Cerdos(Graphics ^ g, System::Drawing::Bitmap ^bmp1,Sy
 	}
 }
 
-void Game_Manager::Mostrar_Tiles(Graphics ^ g, System::Drawing::Bitmap ^bmp)
+void Game_Manager::Mostrar_Tiles(Graphics ^ g,Bitmap ^bmp1,Bitmap^bmp2, System::Drawing::Bitmap ^bmp3)
 {
 	for (int i = 0; i < *N_Tiles; i++)
 	{
-		T[i]->Mostrar(g,bmp);
+		if (dynamic_cast<Tile_madera*>(bolita[i]))
+			bolita[i]->Mostrar_cerdo(g, bmp1);
+		if (dynamic_cast<Tile_glass*>(bolita[i]))
+			bolita[i]->Mostrar_cerdo(g, bmp2);
+		if (dynamic_cast<Tile_roca*>(bolita[i]))
+			bolita[i]->Mostrar_cerdo(g, bmp3);
 	}
 }
